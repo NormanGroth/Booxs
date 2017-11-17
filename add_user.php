@@ -37,7 +37,7 @@ else {
 			<h2><?php echo $status ?></h2>
             <div class="form-group">
               <label for="username">User-Name:</label>
-              <input type="text" class="form-control" id="username" name="username" value="username" onclick="replaceUsername()">
+              <input type="text" class="form-control" id="username" name="username" value="Bitte User-Name eingeben" onclick="replaceUsername()">
             </div>
             <div class="form-group">
               <label for="password">Password:</label>
@@ -45,7 +45,7 @@ else {
             </div>
             <div class="form-group">
               <label for="email">E-Mail:</label>
-              <input type="text" class="form-control" id="email" name="email">
+              <input type="text" class="form-control" id="email" name="email" value="Bitte E-Mail eingeben">
             </div>
             <button type="submit" class="btn btn-default" name="btn-save">Add User</button>
 

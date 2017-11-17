@@ -38,19 +38,19 @@ else {
 			<h2><?php echo $status ?></h2>
             <div class="form-group">
               <label for="autor">Autor:</label>
-              <input type="text" class="form-control" id="autor" name="autor" value="autor" onclick="replaceUsername()">
+              <input type="text" class="form-control" id="autor" name="autor" value="Bitte Autor eingeben" onclick="replaceUsername()">
             </div>
             <div class="form-group">
               <label for="titel">Titel:</label>
-              <input type="titel" class="form-control" id="titel" name="titel">
+              <input type="titel" class="form-control" id="titel" name="titel" value="Bitte Titel eingeben">
             </div>
             <div class="form-group">
               <label for="isbn">ISBN:</label>
-              <input type="text" class="form-control" id="isbn" name="isbn">
+              <input type="text" class="form-control" id="isbn" name="isbn" value="Bitte ISBN eingeben">
             </div>
                <div class="form-group">
               <label for="preis">Preis:</label>
-              <input type="text" class="form-control" id="preis" name="preis">
+              <input type="text" class="form-control" id="preis" name="preis" value="Bitte Preis eingeben">
             </div>
             <button type="submit" class="btn btn-default" name="btn-save">Add Book</button>
 
