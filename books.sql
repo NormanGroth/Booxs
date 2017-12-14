@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 09. Nov 2017 um 22:48
+-- Erstellungszeit: 09. Dez 2017 um 00:22
 -- Server-Version: 10.1.28-MariaDB
 -- PHP-Version: 7.1.10
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Datenbank: `booxs`
+-- Datenbank: `booky`
 --
 
 -- --------------------------------------------------------
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `books` (
   `id` int(11) NOT NULL,
-  `autor` varchar(20) NOT NULL,
+  `autor` varchar(30) NOT NULL,
   `titel` varchar(30) NOT NULL,
   `isbn` int(13) NOT NULL,
   `preis` int(6) NOT NULL
@@ -41,7 +41,7 @@ CREATE TABLE `books` (
 --
 
 INSERT INTO `books` (`id`, `autor`, `titel`, `isbn`, `preis`) VALUES
-(1, 'Joanne K. Rowling', 'Harry Potter', 123456789, 20),
+(1, 'Joane K. Rowling', 'Harry Potter', 1345656, 20),
 (2, 'J.R.R. Tolkien', 'Herr der Ringe', 987654321, 25);
 
 --

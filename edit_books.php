@@ -12,31 +12,32 @@ $status = ""; // Initialisierung der Variable §status ohne Wert, wird später i
   Die per POST übermittelten Daten sollen in der DB gespeichert werden.
 */
 
-if (! empty($_GET['ID'])){  // IF-Bedingung:Prüft, ob von der Seite show_user.php eine ID per URL übergeben wurde (=wahr ist), d.h. die ID als Variable gesetzt ist. Falls hier eine ID als Variable gesetzt ist, folgendes ausführen:
+if (! empty($_GET['ID'])){  // IF-Bedingung:Prüft, ob von der Seite show_books.php eine ID per URL übergeben wurde (=wahr ist), d.h. die ID als Variable gesetzt ist. Falls hier eine ID als Variable gesetzt ist, folgendes ausführen:
  
-  $ID = $_GET['ID']; // Speichert die per GET-Funktion von der URL abgerufene Variable in der Variable $ID -> wurde von der Seite show_user.php übergeben und wird benutzt um im Formularfeld über die ID die Daten abzurufen und diese später dann wieder editiert abzuschicken = ID-Übergabe ist elementar!
+  $ID = $_GET['ID']; // Speichert die per GET-Funktion von der URL abgerufene Variable in der Variable $ID -> wurde von der Seite show_books.php übergeben und wird benutzt um im Formularfeld über die ID die Daten abzurufen und diese später dann wieder editiert abzuschicken = ID-Übergabe ist elementar!
 }
 
 else if (! empty($_POST['ID'])){ // Wenn die Bedingung wahr ist, d.h. die ID im HTML-Formular unten gesetzt ist und das Feld nicht leer ist, die ID per POST-Funktion in die DB schreiben
 
-  if (empty ($_POST['username'])){  // Wenn die Bedingung wahr ist, d.h. der Username im HTML-Formular unten gesetzt ist und das Feld nicht leer ist, den Username per POST-Funktion in die DB schreiben
-      die("Username muss gesetzt sein..."); // Falls Bedingung unwahr ist, d.h. der Username nicht im HTML-Formular gesetzt ist, also das Feld leer ist, diese Meldung ausgeben
+  if (empty ($_POST['titel'])){  // Wenn die Bedingung wahr ist, d.h. der Username im HTML-Formular unten gesetzt ist und das Feld nicht leer ist, den Titel per POST-Funktion in die DB schreiben
+      die("Titel muss gesetzt sein..."); // Falls Bedingung unwahr ist, d.h. der Titel nicht im HTML-Formular gesetzt ist, also das Feld leer ist, diese Meldung ausgeben
   }
   else { // Ansonsten, falls die Bedingung wahr ist, folgendes tun:
-    $username = $_POST['username']; // Formularfeld "username" auslesen und in der Variable $username speichern
+    $titel = $_POST['titel']; // Formularfeld "titel" auslesen und in der Variable $titel speichern
   }
-  $mail = $_POST['mail']; // same
-  $password = $_POST['password']; //same
+  $autor = $_POST['autor']; // same
+  $isbn = $_POST['isbn']; //same
+  $price = $_POST['price']; //same
   $ID = $_POST['ID']; //same
 
 
-$stmt = "UPDATE `user` SET `username` = '" . $username . "',  `mail` = '" . $mail . "', `password` = '" . $password . "' WHERE `user`.`id` = " . $ID . ";";  // Updatebefehl für die mySQL-Datenbank: Ersetze in der Tabelle "user" bei einer bestimmten ID z.B. das Passwort durch den Inhalt der Variable $password
+
+$stmt = "UPDATE `books` SET `titel` = '" . $titel . "', `autor` = '" . $autor . "', `isbn` = '" . $isbn . "', `price` = '" . $price . "' WHERE `books`.`id` = " . $ID . ";";;  // Updatebefehl für die mySQL-Datenbank: Ersetze in der Tabelle "titel" bei einer bestimmten ID z.B. die ISBN durch den Inhalt der Variable $isbn
   $result = $link->query($stmt); // Aufbau zur Datenbank und Durchführung des vorher definierten Update-Befehls
 
 
-
   if ($result){
-    $status = ">> User " . $username . " (ID: " . $ID . ") edited"; // Ausgabe einer Statusmeldung: "User x (ID: x) edited"
+    $status = ">> Book " . $titel . " (ID: " . $ID . ") edited"; // Ausgabe einer Statusmeldung: "Book x (ID: x) edited"
 
   }
 }
@@ -44,20 +45,21 @@ $stmt = "UPDATE `user` SET `username` = '" . $username . "',  `mail` = '" . $mai
 else { // Wenn Update nicht erfolgreich:
     die("No ID set!"); // Ausgabe der Fehlermeldung: "No ID set!"
 }
-$stmt = "SELECT * FROM `user` WHERE `ID` = $ID"; // Abruf der Daten aus der Tabelle "user" mit der ID der Variable $ID
+$stmt = "SELECT * FROM `books` WHERE `ID` = $ID"; // Abruf der Daten aus der Tabelle "books" mit der ID der Variable $ID
 $result = $link->query($stmt); // Verbindungsaufbau zur Datenbank und Abruf der Daten, Speicherung in $result
 
 
 if ($result->num_rows > 0){ // Wenn mehr als 0 Zeilen Daten vorhanden sind, Abruf der Daten
   while ($row = mysqli_fetch_row($result)){ // Solange Daten abrufen, solange welche vorhanden sind
-      $username = $row[1]; // In das untere HTML-Formular wird bei der Zelle mit der ID=username der Inhalt der Variable $row[1] eingesetzt
-      $mail = $row[2]; //same
-      $password = $row[3]; //same
+      $titel = $row[1]; // In das untere HTML-Formular wird bei der Zelle mit der ID=titel der Inhalt der Variable $row[1] eingesetzt
+      $autor = $row[2]; //same
+      $isbn = $row[3]; //same
+      $price = $row[4]; //same
   
   }
 }
 else {
-  die("User mit ID " . $ID . " not found"); // Fehlermeldung, falls unter der ID kein Datensatz gefunden worden ist 
+  die("Book with ID " . $ID . " not found"); // Fehlermeldung, falls unter der ID kein Datensatz gefunden worden ist 
 }
 
 
@@ -76,8 +78,8 @@ else {
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
           <form method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>">
-            <h1>Edit User</h1>
-			      <h2><?php echo $status ?></h2> <!-- Ausgabe eines Status -->
+            <h1>Edit Book</h1> <!-- Ausgabe eines Status -->
+			      <h2><?php echo $status ?></h2>
             <!--
               DIE NÄCHSTE ZEILE IST ZENTRAL!!!
               Hier übergeben wir die ID des Datensatzes, um den es geht.
@@ -97,24 +99,27 @@ else {
             -->
             <input type="hidden" name="ID" value="<?php echo $ID ?>">
             <div class="form-group">
-              <label for="username">User-Name:</label>
+              <label for="titel">Name of book:</label>
               <!--
                 über &lt;?php echo $username ?&gt; schreiben wir die vorher aus der
                 DB gezogenen Daten in das Textfeld - wir füllen also das
                 Formular schon mal mit bestehenden Daten...
               -->
-              <input type="text" class="form-control" id="username" name="username" value="<?php echo $username ?>">
+              <input type="text" class="form-control" id="titel" name="titel" value="<?php echo $titel ?>">
            <div class="form-group">
-              <label for="mail">E-Mail:</label>
-              <input type="text" class="form-control" id="mail" name="mail" value="<?php echo $mail ?>">
+              <label for="autor">Autor:</label>
+              <input type="text" class="form-control" id="autor" name="autor" value="<?php echo $autor ?>">
             </div>
             </div>
             <div class="form-group">
-              <label for="password">Password:</label>
-              <input type="password" class="form-control" id="password" name="password" value = "<?php echo $password ?>">
+              <label for="ISBN">ISBN:</label>
+              <input type="text" class="form-control" id="isbn" name="isbn" value = "<?php echo $isbn ?>">
             </div>
-            <button type="submit" class="btn btn-default" name="btn-save">Edit User</button>
-
+            <div class="form-group">
+              <label for="price">Price:</label>
+              <input type="text" class="form-control" id="price" name="price" value = "<?php echo $price ?>">
+            </div>
+            <button type="submit" class="btn btn-default" name="btn-save">Edit Book</button>
           </form>
 
           </div>
