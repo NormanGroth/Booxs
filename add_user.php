@@ -8,7 +8,19 @@ if(isset($_POST['username'])){ /* IF-Bedingung: Prüft ob, in dem Formularfeld "
   $username = $_POST['username']; // Abfrage der Formularzelle "username" des unteren HTML-Formulars und Speicherung des Inhalts in der Variable $username
   $mail = $_POST['mail']; //same
   $password = $_POST['password']; // same
-  $anfrage = "INSERT INTO `user` (`id`, `username`, `mail`, `password`) VALUES (NULL, '" . $username . "', '" . $mail . "', '" . $password ."');"; // mySQL-Befehl: In die Tabelle "user" wird in den Spalten "id", "username", "password" und "email"  die Werte aus dem unteren HTML-Formular eingefügt. Speicherung dieser Anfrage in der Variable $anfrage.
+  $address = $_POST['address'];
+  $lat = 0.0;
+  $lng = 0.0;
+  $maps_url = 'https://' .
+	'maps.googleapis.com/' .
+	'maps/api/geocode/json' .
+	'?address=' . urlencode($address);
+  $maps_json = file_get_contents($maps_url);
+  $maps_array = json_decode($maps_json, true);
+  $lat = $maps_array['results'][0]['geometry']['location']['lat'];
+  $lng = $maps_array['results'][0]['geometry']['location']['lng'];
+
+  $anfrage = "INSERT INTO `user` (`id`, `username`, `mail`, `password`, `address`,`lat`, `lng`) VALUES (NULL, '" . $username . "', '" . $mail . "', '" . $password . "' ,'" . $address . "' ,'" . $lat . "' ,'" . $lng . "');"; // mySQL-Befehl: In die Tabelle "user" wird in den Spalten "id", "username", "password" und "email"  die Werte aus dem unteren HTML-Formular eingefügt. Speicherung dieser Anfrage in der Variable $anfrage.
   $ergebnis = $link->query($anfrage); // Aufbau der Verbindung ($link) zur Datenbank und Ablauf der Anfrage ($anfrage) und Speicherung in der Variable $ergebnis
   
   $status = "User added!"; // Falls Ablauf bis hier erfolgreich: Ausgabe einer Statusmeldung in der oben initialisierten Variable $status: "User added"
@@ -44,11 +56,37 @@ else { // Falls IF-Bedingung unwahr ist, also kein Inhalt in dem Formularfeld "u
               <label for="password">Password:</label>
               <input type="password" class="form-control" id="password" name="password">
             </div>
+			<div class="form-group">
+				<label for="address">Address:</label>
+				<input type="text" class="form-control" id="address" name="address">
+			</div>
             <button type="submit" class="btn btn-default" name="btn-save">Add User</button>
           </form>
+			<div id ="map" style="width: 100%; height: 400px">
+			</div>
           </div>
-        </div>
+        	</div>
+
+
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+	<script>
+	function initMap() {
+	var loc = {lat: <?php echo $row[7] ?>, lng: <?php echo $row[8] ?>};
+	var map = new google.maps.Map(document.getElementById('map'), {
+	zoom: 14,
+	center: loc
+	});
+	var marker = new google.maps.Marker({
+	position: loc,
+	map: map
+	});
+	}
+	</script>
+	<script async defer
+	src="https://maps.googleapis.com/maps/api/js?key=[AIzaSyBOfH33yqSm78VVt9COBYIojovNCh0ByVM]&callback=initMap">
+	</script>
+
 </body>
 </html>

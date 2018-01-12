@@ -49,7 +49,7 @@ $stmt = "SELECT * FROM `books` WHERE `ID` = $ID"; // Abruf der Daten aus der Tab
 $result = $link->query($stmt); // Verbindungsaufbau zur Datenbank und Abruf der Daten, Speicherung in $result
 
 
-if ($result->num_rows > 0){ // Wenn mehr als 0 Zeilen Daten vorhanden sind, Abruf der Daten
+if ($result->num_rows > 0){ // Wenn mehr als 0 Zeilen Daten vorhanden sind, Abruf der Daten. Hier wird OOP verwendet, von dem Objekt $result wird die Anzahl der Zeilen abgefragt (nochmal prüfen)
   while ($row = mysqli_fetch_row($result)){ // Solange Daten abrufen, solange welche vorhanden sind
       $titel = $row[1]; // In das untere HTML-Formular wird bei der Zelle mit der ID=titel der Inhalt der Variable $row[1] eingesetzt
       $autor = $row[2]; //same

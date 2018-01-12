@@ -28,9 +28,11 @@ else if (! empty($_POST['ID'])){ // Wenn die Bedingung wahr ist, d.h. die ID im 
   $mail = $_POST['mail']; // same
   $password = $_POST['password']; //same
   $ID = $_POST['ID']; //same
+  $address = $_POST['address'];
+  $lat = 0.0;
+  $lng = 0.0;
 
-
-$stmt = "UPDATE `user` SET `username` = '" . $username . "',  `mail` = '" . $mail . "', `password` = '" . $password . "' WHERE `user`.`id` = " . $ID . ";";  // Updatebefehl für die mySQL-Datenbank: Ersetze in der Tabelle "user" bei einer bestimmten ID z.B. das Passwort durch den Inhalt der Variable $password
+$stmt = "UPDATE `user` SET `username` = '" . $username . "',  `mail` = '" . $mail . "', `password` = '" . $password . "', `address` = '" . $address . "', `lat` = '" . $lat . "', `lng` = '" . $lng . "' WHERE `user`.`id` = " . $ID . ";";  // Updatebefehl für die mySQL-Datenbank: Ersetze in der Tabelle "user" bei einer bestimmten ID z.B. das Passwort durch den Inhalt der Variable $password
   $result = $link->query($stmt); // Aufbau zur Datenbank und Durchführung des vorher definierten Update-Befehls
 
 
@@ -113,12 +115,15 @@ else {
               <label for="password">Password:</label>
               <input type="password" class="form-control" id="password" name="password" value = "<?php echo $password ?>">
             </div>
+            <div class="form-group">
+              <label for="address">Address:</label>
+              <input type="text" class="form-control" id="address" name="address" value="<?php echo $row[4]?>">
+            </div>
             <button type="submit" class="btn btn-default" name="btn-save">Edit User</button>
-
           </form>
-
           </div>
         </div>
+        
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </body>
